@@ -64,18 +64,26 @@ require('../../../layout/header.php');
                                 </div>
                             </div>
                         </div>
+
                         <div class="dataTable-container">
+                            <div class="form-group pull-right">
+                                <input type="text" class="search form-control" placeholder="Tìm cửa hàng theo địa chỉ">
+                            </div>
+                            <span class="counter pull-right"></span>
                             <table id="datatablesSimple" class="dataTable-table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 5%;" class="text-center"><a href="#" >STT</a></th>
-                                        <th style="width: 30%;"class="text-center"><a href="#" >Địa chỉ</a></th>
-                                        <th style="width: 5%;" class="text-center"><a href="#" >Xoá</a></th>
-                                        <th style="width: 5%;" class="text-center"><a href="#" >Sửa thông tin</a></th>
+                                        <th style="width: 5%;" class="text-center"><a href="#">STT</a></th>
+                                        <th style="width: 30%;" class="text-center"><a href="#">Địa chỉ</a></th>
+                                        <th style="width: 5%;" class="text-center"><a href="#">Xoá</a></th>
+                                        <th style="width: 5%;" class="text-center"><a href="#">Sửa thông tin</a></th>
+                                    </tr>
+                                    <tr class="warning no-result" style="display: none;">
+                                        <td colspan="4"><i class="fa fa-warning"></i> No result</td>
                                     </tr>
                                 </thead>
                                 <tbody id="bodyStore">
-                            
+
                                 </tbody>
                             </table>
                         </div>

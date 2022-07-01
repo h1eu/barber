@@ -35,6 +35,14 @@ require('../../../layout/header.php');
             <div class="card mb-4" style="width:95%;">
                 <div class="card-body">
                     <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                        <div class="form-group pull-right">
+                                <input type="text" class="search form-control" placeholder="Nhập tên Người dùng">
+                        </div>
+                        <form action="/action_page.php">
+                            <label >Lọc lịch hẹn theo ngày:</label>
+                            <input type="date" id="filterDay">
+                            <button type="button" id="button_filter" class="btn btn-success">kiểm tra</button>
+                        </form>
                         <div class="dataTable-container">
                             <table id="datatablesSimple" class="dataTable-table">
                                 <thead>

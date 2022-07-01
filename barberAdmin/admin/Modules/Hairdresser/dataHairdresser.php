@@ -11,7 +11,9 @@ $table = "hairdresser";
 $sql = "SELECT * FROM $table ";
 $rs = mysqli_query($connectDb, $sql);
 $stt = 0;
-while ($row = mysqli_fetch_array($rs)) {
+$array = mysqli_fetch_all($rs,MYSQLI_ASSOC);
+$rowS = array_reverse($array);
+foreach ($rowS  as $row) {
     $stt++;
 ?>
     <tr>

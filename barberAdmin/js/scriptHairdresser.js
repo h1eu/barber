@@ -64,16 +64,20 @@ $(document).ready(function () {
             var id = $(this).val();
             var action = "deleteHairdresser"
             $.post('deleteHairdresser.php', { maThoCatToc: id, action: action }, function (response) {
-                    $('#noti').html(response)
+                //    $('#noti').html(response)
                     viewData()
              })
          } else return;
     })
 
+
+    var idHairdresser = -1
+    var idStoreOld = ""
+
     $(document).on('click', '#btnEdit', function () {
         var id = $(this).val();
+        idHairdresser = id 
         var action = "getHairdresser"
-        $idStoreOld = ""
         $.ajax({
             url: "editHairdresser.php",
             type: "GET",
@@ -88,38 +92,88 @@ $(document).ready(function () {
                 $('#updateHairListHair').val(response[0]['kieuTocChinh'])
                 $('#updateHairAvt').prop('disabled', 'disabled');
                 $('#updateHairStore').val(response[0]['maCuaHang'])
-                $idStoreOld =  $('#updateHairStore').val()
-                console.log($idStoreOld)
+                $('#updateHairImg').attr('src',response[0]['img'])
+                idStoreOld =  $('#updateHairStore').val()
             }
         })
-        $('#UpdateModal').modal("show")
-        $(document).on('click', '#button_save',function(){
-            var action2 = "updateHairdresser"
-            $idStoreNew = $('#updateHairStore').val()
-            console.log($idStoreNew)
-            console.log(id )
-            if($idStoreOld == $idStoreNew){
-                alert("chưa cập nhật địa chỉ")
-            }
-            else{
-                $.ajax({
-                    url: "editHairdresser.php",
-                    type: "POST",
-                    data: {
-                        maThoCatToc : id,
-                        maCuaHangNew : $idStoreNew,
-                        action : action2
-                    } , 
-                    complete : function(response){
-                        alert("Cập nhật địa chỉ thành công");
-                        $('#updateHairStore').val("")
-                        $('#button_close').click();
-                        viewData();
-                    }
-                })
-            }
-            
-        })
-        
+        $('#UpdateModal').modal("show") 
     })
+
+   
+
+    function updatehairdresser(idHairdresser,idStoreOld){
+        var action2 = "updateHairdresser"
+        var idStoreNew = $('#updateHairStore').val()
+        if(idStoreOld == idStoreNew){
+            alert("chưa cập nhật địa chỉ")
+        }
+        else{
+            $.ajax({
+                url: "editHairdresser.php",
+                type: "POST",
+                data: {
+                    maThoCatToc : idHairdresser,
+                    maCuaHangNew : idStoreNew,
+                    action : action2
+                } , 
+                complete : function(response){
+                    alert("Cập nhật địa chỉ làm việc thành công");
+                    $('#updateHairStore').val("")
+                    $('#button_close').click();
+                    viewData();
+                }
+            })
+        }
+        
+    }
+
+    $(document).on('click', '#button_save',function(e){
+        e.preventDefault();
+        updatehairdresser(idHairdresser,idStoreOld)
+    })
+
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        if(searchTerm == ''){
+            viewData()
+        }
+        else {
+            var action = 'searchHairdresser'
+            $('#bodyHairdresser').html('')
+            $.ajax({
+                url : 'search.php',
+                method : 'post',
+                data : {
+                    keySearch : searchTerm,
+                    action : action
+                },
+                success : function(data){
+                    $('#bodyHairdresser').html(data)
+                }
+            })
+        }
+    })
+
+    $('#button_filter').on('click', function () {
+        var idStoreSeleted = $('#idStoreSelected').val() 
+        if(idStoreSeleted == ''){
+            viewData()
+        }
+        else {
+            var action = 'filterHairdresser'
+            $('#bodyHairdresser').html('')
+            $.ajax({
+                url : 'filterHairdresser.php',
+                method : 'post',
+                data : {
+                    idStore : idStoreSeleted,
+                    action : action
+                },
+                success : function(data){
+                    $('#bodyHairdresser').html(data)
+                }
+            })
+        }
+    })
+    
 })

@@ -64,24 +64,27 @@ $(document).ready(function () {
             var id = $(this).val();
             var action = "deleteProduct"
             $.post('deleteProduct.php',{maSanPham : id, action : action},function(response){
-                $('#noti').html(response)
+         //       $('#noti').html(response)
                 viewData()
             })
         } else return;
     })
 
+    var priceOld = ""
+    var idProduct = -1
+
     $(document).on('click','#btnEdit',function(){
         var id = $(this).val();
+        idProduct = id
         var action = "getProduct"
         $('#updateProductName').prop('disabled', 'disabled');
         $('#updateProductType').prop('disabled', 'disabled');
         $('#updateProductImg').prop('disabled', 'disabled');
-        $priceOld = ""
         $.ajax({
             url: "editProduct.php",
             type: "GET",
             data: {
-                maSanPham: id,
+                maSanPham: idProduct,
                 action: action
             },
             dataType: "json",
@@ -91,39 +94,90 @@ $(document).ready(function () {
                 $('#updateProductType').val(response['loai'])              
      //           $('#updateProductImg').val(response[0]['imgProduct'])
                 $('#updateproductDes').val(response['moTa'])
+                $('#updateProductImgSrc').attr('src',response['imgProduct'])
                 console.log(response['moTa'])
                
-                $priceOld =  $('#updateProductPrice').val()
+                priceOld =  $('#updateProductPrice').val()
             }
         })
         $('#UpdateModal').modal("show")
-        $(document).on('click', '#button_save',function(){
-            var action2 = "updateProduct"
-            $priceNew = $('#updateProductPrice').val()
-            if($priceOld == $priceNew){
-                alert("chưa cập nhật giá tiền sản phẩm")
-            }
-            else if($priceNew == ''){
-                alert("Không được để trống")
-            }
-            else{
-                $.ajax({
-                    url: "editProduct.php",
-                    type: "POST",
-                    data: {
-                        maSanPham : id,
-                        giaTien : $priceNew,
-                        action : action2
-                    } , 
-                    complete : function(response){
-                        alert("Cập nhật giá cho sản phẩm thành công");
-                        // $('#updateHairStore').val("")
-                        $('#button_close').click();
-                        viewData();
-                    }
-                })
-            }
-            
-        })
+       
+    })
+
+    function updateProduct(idProduct,priceOld){
+        var action2 = "updateProduct"
+        var priceNew = $('#updateProductPrice').val()
+        if(priceOld == priceNew){
+            alert("chưa cập nhật giá tiền sản phẩm")
+        }
+        else if(priceNew == ''){
+            alert("Không được để trống")
+        }
+        else{
+            $.ajax({
+                url: "editProduct.php",
+                type: "POST",
+                data: {
+                    maSanPham : idProduct,
+                    giaTien : priceNew,
+                    action : action2
+                } , 
+                complete : function(response){
+                    alert("Cập nhật giá cho sản phẩm thành công");
+                    // $('#updateHairStore').val("")
+                    $('#button_close').click();
+                    viewData();
+                }
+            })
+        }
+    }
+
+    $(document).on('click', '#button_save',function(e){
+        e.preventDefault();
+        updateProduct(idProduct,priceOld)
+    })
+
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        if(searchTerm == ''){
+            viewData()
+        }
+        else {
+            var action = 'searchProduct'
+            $('#bodyStore').html('')
+            $.ajax({
+                url : 'search.php',
+                method : 'post',
+                data : {
+                    keySearch : searchTerm,
+                    action : action
+                },
+                success : function(data){
+                    $('#bodyProduct').html(data)
+                }
+            })
+        }
+    })
+    
+    $('#button_filter').on('click', function () {
+        var typeProductSelected = $('#typeProductSelected').val() 
+        if(typeProductSelected == ''){
+            viewData()
+        }
+        else {
+            var action = 'filterProduct'
+            $('#bodyProduct').html('')
+            $.ajax({
+                url : 'filterProduct.php',
+                method : 'post',
+                data : {
+                    loai : typeProductSelected,
+                    action : action
+                },
+                success : function(data){
+                    $('#bodyProduct').html(data)
+                }
+            })
+        }
     })
 })

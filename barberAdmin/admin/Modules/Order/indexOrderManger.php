@@ -25,10 +25,13 @@ require('../../../layout/header.php');
             <li class="breadcrumb-item active">Quản lý Đơn hàng</li>
         </ol>
                     <div class="dataTable-container">
+                         <div class="form-group pull-right">
+                                <input type="text" class="search form-control" placeholder="Nhập tên khách hàng">
+                            </div>
                         <table id="datatablesSimple" class="dataTable-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%;" class="text-center"><a href="#">STT</a></th>
+                                    <th style="width: 5%;" class="text-center"><a href="#">Mã DH</a></th>
                                     <th style="width: 10%;" class="text-center"><a href="#">Tên người mua</a></th>
                                     <th style="width: 10%;" class="text-center"><a href="#">Tên sản phẩm</a></th>
                                     <th style="width: 10%;" class="text-center"><a href="#">Tổng tiền</a></th>

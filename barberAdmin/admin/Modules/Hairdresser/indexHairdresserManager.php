@@ -62,7 +62,6 @@ require('../../../layout/header.php');
                                                 <input type="file" id="hairAvt" name="file" class="form-control" placeholder="ảnh">
                                                 <label>Cửa hàng hoạt động</label>
                                                 <select type="" id="hairStore" class="form-control" placeholder="Cửa hàng hoạt động">
-                                                    <option value="">Mời bạn chọn</option>
                                                     <?php
                                                     $query = "SELECT * FROM store";
                                                     $result = mysqli_query($connectDb, $query);
@@ -85,6 +84,28 @@ require('../../../layout/header.php');
                             </div>
                         </div>
                         <div class="dataTable-container">
+                            <div class="form-group pull-right">
+                                <input type="text" class="search form-control" placeholder="Tìm thợ cắt tóc theo tên thợ cắt tóc">
+                            </div>
+                            <h5>Lọc danh sách thợ cắt tóc theo cửa hàng</h5>
+                            <div>
+                                <select type="" id="idStoreSelected"  placeholder="Cửa hàng hoạt động">
+                                    <option></option>
+                                    <?php
+                                    $query = "SELECT * FROM store";
+                                    $result = mysqli_query($connectDb, $query);
+                                    $r = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                                    foreach ($r as $item) :
+                                    ?>
+                                        <option value="<?php echo ($item['maCuaHang']); ?>"><?php echo ($item['diaChi']); ?></option>
+                                    <?php
+                                    endforeach
+                                    ?>
+                                </select>
+                                <button type="button" id="button_filter" class="btn btn-success">Lọc</button>
+                            </div>
+
+
                             <table id="datatablesSimple" class="dataTable-table">
                                 <thead>
                                     <tr>
@@ -108,9 +129,9 @@ require('../../../layout/header.php');
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Cập nhật địa chỉ cửa hàng cho Thợ cắt tóc</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" id="Update_hairdresser">
@@ -122,9 +143,10 @@ require('../../../layout/header.php');
                                             <input type="text" id="updateHairListHair" class="form-control" placeholder="" readonly>
                                             <label>Ảnh</label>
                                             <input type="file" id="updateHairAvt" name="file" class="form-control" placeholder="" readonly>
+                                            <img id="updateHairImg" src="" width="100px" height="100px"></img>
+                                            <br>
                                             <label>Cửa hàng hoạt động</label>
                                             <select type="" id="updateHairStore" class="form-control" placeholder="">
-                                                <option value="">Mời bạn chọn</option>
                                                 <?php
                                                 $query = "SELECT * FROM store";
                                                 $result = mysqli_query($connectDb, $query);

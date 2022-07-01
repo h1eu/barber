@@ -32,44 +32,74 @@ $(document).ready(function(){
             var id = $(this).val();
             var action = "deleteStore"
             $.post('deleteStore.php',{maCuaHang : id, action : action},function(response){
-                $('#noti').html(response)
+           //     $('#noti').html(response)
                 viewStore()
             })
         } else return;
     })
 
-    $(document).on('click','#btnEdit',function(){
+    var addressStoreOld = ""
+    var idS = -1;
+    $(document).on('click','#btnEdit',function(){       
         var id = $(this).val();
+        idS = id
         var action = "getAddress"
-        var addressOld = ""
         $.post('editStore.php',{maCuaHang : id,action : action}, function(response){
             $('#address_store_old').val(response)  
-            addressOld = $('#address_store_old').val()   
-            console.log(addressOld) ; 
+            addressStoreOld = $('#address_store_old').val()   
         })
         $('#UpdateModal').modal("show")
-        $(document).on('click','#button_save',function(){
-            var action2 = "updateAddress"
-            var addressNew = $('#address_store_old').val()  
-           
-            if(addressNew == ''  ){
-                alert("không được để trống")
-            }
-            else if(addressOld == addressNew){
-                alert("chưa cập nhật địa chỉ")
-            }
-            else{
-                $.post('editStore.php',{
-                        maCuaHang : id, 
-                        diaChiMoi : addressNew, 
-                        action :action2},
-                    function(respone){
-                    alert("Cập nhật địa chỉ thành công");
-                    $('#address_store_old').val("")
-                    $('#button_close').click();
-                    viewStore();
-                })
-            }
-        })
+    })
+
+    
+    function updateStore(addressStoreOld,idS){
+        var action2 = "updateAddress"
+        var addressNew = $('#address_store_old').val()  
+        if(addressNew == ''  ){
+            alert("không được để trống")
+        }
+        else if(addressStoreOld == addressNew){
+            alert("chưa cập nhật địa chỉ")
+        }
+        else{
+            $.post('editStore.php',{
+                    maCuaHang : idS, 
+                    diaChiMoi : addressNew, 
+                    action :action2},
+                function(respone){
+                alert("Cập nhật địa chỉ thành công");
+                $('#address_store_old').val("")
+                $('#button_close').click();
+                viewStore();
+            })
+        }
+    }
+
+    
+    $(document).on ('click','#button_save',function(e){
+        e.preventDefault();
+        updateStore(addressStoreOld,idS)
+    })
+
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        if(searchTerm == ''){
+            viewStore()
+        }
+        else {
+            var action = 'searchStore'
+            $('#bodyStore').html('')
+            $.ajax({
+                url : 'search.php',
+                method : 'post',
+                data : {
+                    keySearch : searchTerm,
+                    action : action
+                },
+                success : function(data){
+                    $('#bodyStore').html(data)
+                }
+            })
+        }
     })
 })

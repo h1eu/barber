@@ -93,6 +93,26 @@ require('../../../layout/header.php');
                             </div>
                         </div>
                         <div class="dataTable-container">
+                            <div class="form-group pull-right">
+                                <input type="text" class="search form-control" placeholder="Nhập tên sản phẩm">
+                            </div>
+                            <h5>Lọc danh sách sản phẩm theo loại sản phẩm</h5>
+                            <div>
+                                <select type="" id="typeProductSelected" >
+                                    <option></option>
+                                    <?php
+                                    $query = "SELECT DISTINCT loai FROM product";
+                                    $result = mysqli_query($connectDb, $query);
+                                    $r = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                                    foreach ($r as $item) :
+                                    ?>
+                                        <option value="<?php echo ($item['loai']); ?>"><?php echo ($item['loai']); ?></option>
+                                    <?php
+                                    endforeach
+                                    ?>
+                                </select>
+                                <button type="button" id="button_filter" class="btn btn-success">Lọc</button>
+                            </div>
                             <table id="datatablesSimple" class="dataTable-table">
                                 <thead>
                                     <tr>
@@ -149,6 +169,8 @@ require('../../../layout/header.php');
                                                 <label>Mô tả</label>
                                                 <textarea type="text"  id="updateproductDes" class="form-control" rows="10" cols="30" placeholder="" readonly></textarea>
                                                 <input type="file" id="updateProductImg" name="file" class="form-control" placeholder="">
+                                                <img  id="updateProductImgSrc" src="" width="100px" height="100px"></img>
+                                                
                                             </form>
                                         </div>
                                     <div class="modal-footer">

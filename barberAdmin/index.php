@@ -79,6 +79,7 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 </main>
+
 <?php 
     include('layout/footer.php');
 ?>

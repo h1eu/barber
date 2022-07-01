@@ -35,7 +35,7 @@ require('../../../layout/header.php');
                         <!-- Modal -->
                         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document" style="max-width : 850px;">
-                                <div class="modal-content" >
+                                <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Thêm Bài viết</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -73,7 +73,7 @@ require('../../../layout/header.php');
                                             <label>Nội dung</label>
                                             <textarea name="" id="contentPost" cols="30" rows="10" class="form-control" placeholder="Nhập Nội dung cho bài viết"></textarea>
                                             <label>Ảnh</label>
-                                                <input type="file" id="imgPost" name="file" class="form-control" placeholder="ảnh">
+                                            <input type="file" id="imgPost" name="file" class="form-control" placeholder="ảnh">
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -85,6 +85,26 @@ require('../../../layout/header.php');
                         </div>
                     </div>
                     <div class="dataTable-container">
+                        <div class="form-group pull-right">
+                            <input type="text" class="search form-control" placeholder="Nhập tên bài viết">
+                        </div>
+                        <h5>Lọc danh sách Bài viết theo loại sản phẩm</h5>
+                        <div>
+                            <select type="" id="typePostSelected">
+                                <option></option>
+                                <?php
+                                $query = "SELECT DISTINCT chuyenMuc FROM post";
+                                $result = mysqli_query($connectDb, $query);
+                                $r = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                                foreach ($r as $item) :
+                                ?>
+                                    <option value="<?php echo ($item['chuyenMuc']); ?>"><?php echo ($item['chuyenMuc']); ?></option>
+                                <?php
+                                endforeach
+                                ?>
+                            </select>
+                            <button type="button" id="button_filter" class="btn btn-success">Lọc</button>
+                        </div>
                         <table id="datatablesSimple" class="dataTable-table">
                             <thead>
                                 <tr>
@@ -113,16 +133,17 @@ require('../../../layout/header.php');
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" id="Update_post">
-                                    <label>Chuyên mục</label>
-                                            <select type="" id="updateTypePostx" class="form-control" placeholder="">
-                                                    <option id ="updateTypePost"><?php echo ($item); ?></option>
-                                            </select>
-                                            <label>Tiêu đề</label>
-                                            <input type="text" id="updateTitlePost" class="form-control" placeholder="Nhập Tiêu đề cho bài viết">
-                                            <label>Nội dung</label>
-                                            <textarea name="" id="updateContentPost" cols="30" rows="10" class="form-control" placeholder="Nhập Nội dung cho bài viết"></textarea>
-                                            <label>Ảnh</label>
-                                            <input type="file" id="updateImgPost" name="file" class="form-control" placeholder="ảnh" readonly>
+                                        <label>Chuyên mục</label>
+                                        <select type="" id="updateTypePostx" class="form-control" placeholder="">
+                                            <option id="updateTypePost"><?php echo ($item); ?></option>
+                                        </select>
+                                        <label>Tiêu đề</label>
+                                        <input type="text" id="updateTitlePost" class="form-control" placeholder="Nhập Tiêu đề cho bài viết">
+                                        <label>Nội dung</label>
+                                        <textarea name="" id="updateContentPost" cols="30" rows="10" class="form-control" placeholder="Nhập Nội dung cho bài viết"></textarea>
+                                        <label>Ảnh</label>
+                                        <input type="file" id="updateImgPost" name="file" class="form-control" placeholder="ảnh" readonly>
+                                        <img id="updatePostImg" src="" width="100px" height="100px"></img>
                                     </form>
                                 </div>
                                 <div class="modal-footer">

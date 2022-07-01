@@ -10,8 +10,10 @@ try {
 $table = "product";
 $sql = "SELECT * FROM $table ";
 $rs = mysqli_query($connectDb, $sql);
+$array = mysqli_fetch_all($rs,MYSQLI_ASSOC);
 $stt = 0;
-while ($row = mysqli_fetch_array($rs)) {
+$rowS = array_reverse($array);
+foreach ($rowS  as $row)  {
     $stt++;
 ?>
     <tr>
