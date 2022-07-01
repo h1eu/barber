@@ -38,7 +38,7 @@ require('../../../layout/header.php');
                         <div class="form-group pull-right">
                                 <input type="text" class="search form-control" placeholder="Nhập tên Người dùng">
                         </div>
-                        <form action="/action_page.php">
+                        <form >
                             <label >Lọc lịch hẹn theo ngày:</label>
                             <input type="date" id="filterDay">
                             <button type="button" id="button_filter" class="btn btn-success">kiểm tra</button>

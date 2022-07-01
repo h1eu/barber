@@ -1,7 +1,7 @@
 <?php
 function base_url()
 {
-    return $url = "http://localhost/barberAdmin/";
+    return $url = "http://45.77.170.42/barberAdmin/";
 }
 ?>
 <!DOCTYPE html>
